@@ -2,14 +2,14 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "chrysotil/simple-api"
-        DOCKER_CREDENTIALS_ID = "docker-hub-creds"  // Jenkins'te tanımlanacak
+        IMAGE_NAME = "zebercet/simple-api"
+        DOCKER_CREDENTIALS_ID = "docker-hub-creds"
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/Chrysotil/simple-api.git'
+                git branch: 'main', url: 'https://github.com/Chrysotil/simple-api.git'
             }
         }
 

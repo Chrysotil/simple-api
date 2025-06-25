@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/Chrysotil/simple-api.git'
+                git branch: 'main', url: 'https://github.com/Chrysotil/simple-api.git'
             }
         }
 

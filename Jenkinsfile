@@ -3,13 +3,13 @@ pipeline {
 
     environment {
         IMAGE_NAME = "zebercet/simple-api"
-        DOCKER_CREDENTIALS_ID = "docker-hub-creds"
+        DOCKER_CREDENTIALS_ID = "docker-hub-creds"  // Jenkins'te tanımladığın Docker Hub Credentials ID
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/Chrysotil/simple-api.git'
+                git 'https://github.com/Chrysotil/simple-api.git'
             }
         }
 
@@ -25,7 +25,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', "${DOCKER_CREDENTIALS_ID}") {
-                        docker.image("${IMAGE_NAME}").push("latest")
+                        docker.image("${IMAGE_NAME}").push()
                     }
                 }
             }
@@ -33,11 +33,9 @@ pipeline {
     }
 
     post {
-        success {
-            echo '✅ Build & push işlemi tamamlandı.'
-        }
-        failure {
-            echo '❌ Build başarısız oldu.'
+        always {
+            // Güvenlik açısından config.json dosyasını sil
+            sh 'rm -f ~/.docker/config.json || true'
         }
     }
 }
